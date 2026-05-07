@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de Surebet Avançada</title>
+    <title>Calculadora de Surebet - Apenas Vitórias</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -13,7 +13,7 @@
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+
         body {
             background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
                         url('https://images.unsplash.com/photo-1575361204480-aadea25e6e68?q=80&w=2071&auto=format&fit=crop') no-repeat center center fixed;
@@ -23,7 +23,7 @@
             padding: 20px;
             position: relative;
         }
-        
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -31,7 +31,40 @@
             flex-direction: column;
             gap: 25px;
         }
-        
+
+        /* Estilos para o relógio */
+        .clock-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .clock-card {
+            background: rgba(0, 80, 0, 0.85);
+            border-radius: 15px;
+            padding: 15px 30px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+            border: 2px solid #ffd700;
+            text-align: center;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .time-display {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #ffd700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            letter-spacing: 3px;
+            margin-bottom: 5px;
+        }
+
+        .date-display {
+            font-size: 1.3rem;
+            color: #e0e0e0;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+        }
+
         header {
             text-align: center;
             padding: 20px;
@@ -40,27 +73,85 @@
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
             border: 2px solid #ffd700;
         }
-        
+
         h1 {
             font-size: 2.8rem;
             margin-bottom: 10px;
             color: #ffd700;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
         }
-        
+
         .subtitle {
             font-size: 1.2rem;
             color: #e0e0e0;
             max-width: 800px;
             margin: 0 auto;
         }
-        
+
+        /* Sistema de Abas */
+        .tabs-container {
+            background: rgba(0, 80, 0, 0.85);
+            border-radius: 15px;
+            padding: 0;
+            margin-bottom: 25px;
+            border: 2px solid #ffd700;
+        }
+
+        .tabs {
+            display: flex;
+            background: rgba(0, 60, 0, 0.9);
+            border-radius: 12px 12px 0 0;
+            overflow: hidden;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 18px 25px;
+            background: transparent;
+            border: none;
+            color: #e0e0e0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            min-width: auto;
+        }
+
+        .tab-btn:hover {
+            background: rgba(255, 215, 0, 0.1);
+            color: #ffd700;
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(to right, #4CAF50, #2E7D32);
+            color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         .content {
             display: flex;
             gap: 25px;
             flex-wrap: wrap;
         }
-        
+
         .calculator-section, .history-section {
             background: rgba(30, 30, 30, 0.92);
             border-radius: 15px;
@@ -70,11 +161,11 @@
             flex: 1;
             min-width: 300px;
         }
-        
+
         .calculator-section {
             flex: 1.2;
         }
-        
+
         .section-title {
             font-size: 1.8rem;
             margin-bottom: 20px;
@@ -85,18 +176,18 @@
             align-items: center;
             gap: 10px;
         }
-        
+
         .input-group {
             margin-bottom: 20px;
         }
-        
+
         label {
             display: block;
             margin-bottom: 8px;
             font-weight: 600;
             color: #ffd700;
         }
-        
+
         input, select {
             width: 100%;
             padding: 14px;
@@ -106,20 +197,81 @@
             color: white;
             font-size: 16px;
         }
-        
+
         input:focus, select:focus {
             outline: none;
             border-color: #4CAF50;
             box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.3);
         }
-        
+
+        .bookmaker-section {
+            background: rgba(40, 40, 40, 0.8);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #555;
+        }
+
+        .bookmaker-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #555;
+        }
+
+        .bookmaker-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .bookmaker-logo {
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-weight: bold;
+        }
+
+        .superbet-logo {
+            background: #e30613;
+            color: white;
+        }
+
+        .sportingbet-logo {
+            background: #035c8e;
+            color: white;
+        }
+
+        .bookmaker-link {
+            color: #ffd700;
+            text-decoration: none;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s ease;
+            padding: 5px 10px;
+            border-radius: 5px;
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .bookmaker-link:hover {
+            background: rgba(255, 215, 0, 0.2);
+            transform: translateY(-2px);
+        }
+
         .odds-container {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: 1fr;
             gap: 15px;
             margin-top: 10px;
         }
-        
+
         .odds-box {
             background: #222;
             border-radius: 8px;
@@ -127,20 +279,20 @@
             text-align: center;
             border: 1px solid #444;
         }
-        
+
         .odds-label {
             font-size: 14px;
             color: #aaa;
             margin-bottom: 5px;
         }
-        
+
         .button-group {
             display: flex;
             gap: 15px;
             margin-top: 25px;
             flex-wrap: wrap;
         }
-        
+
         button {
             padding: 14px 25px;
             border: none;
@@ -156,31 +308,31 @@
             justify-content: center;
             gap: 10px;
         }
-        
+
         .calculate-btn {
             background: linear-gradient(to right, #4CAF50, #2E7D32);
             color: white;
         }
-        
+
         .export-btn {
             background: linear-gradient(to right, #2196F3, #0D47A1);
             color: white;
         }
-        
+
         .clear-btn {
             background: linear-gradient(to right, #f44336, #b71c1c);
             color: white;
         }
-        
+
         button:hover {
             transform: translateY(-3px);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
         }
-        
+
         button:active {
             transform: translateY(1px);
         }
-        
+
         .result-container {
             margin-top: 25px;
             background: rgba(0, 60, 0, 0.5);
@@ -189,7 +341,7 @@
             border: 1px solid #4CAF50;
             text-align: center;
         }
-        
+
         .profit-percentage {
             font-size: 2.5rem;
             font-weight: bold;
@@ -197,19 +349,19 @@
             margin: 15px 0;
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
         }
-        
+
         .result-label {
             font-size: 1.2rem;
             color: #e0e0e0;
         }
-        
+
         .surebet-label {
             font-size: 1.4rem;
             font-weight: bold;
             color: #4CAF50;
             margin-top: 10px;
         }
-        
+
         .stakes-container {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -217,14 +369,14 @@
             margin-top: 20px;
             text-align: left;
         }
-        
+
         .stake-box {
             background: rgba(0, 40, 0, 0.6);
             border-radius: 8px;
             padding: 15px;
             border: 1px solid #4CAF50;
         }
-        
+
         .stake-header {
             display: flex;
             justify-content: space-between;
@@ -233,20 +385,51 @@
             font-weight: bold;
             color: #ffd700;
         }
-        
+
         .stake-value {
             font-size: 1.8rem;
             font-weight: bold;
             color: white;
             text-align: center;
         }
-        
+
+        .return-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .return-box {
+            background: rgba(0, 60, 0, 0.6);
+            border-radius: 8px;
+            padding: 15px;
+            border: 1px solid #4CAF50;
+        }
+
+        .return-header {
+            font-weight: bold;
+            color: #ffd700;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .return-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+        }
+
         .history-list {
             max-height: 400px;
             overflow-y: auto;
             padding-right: 10px;
         }
-        
+
         .history-item {
             background: rgba(50, 50, 50, 0.7);
             border-radius: 8px;
@@ -255,7 +438,7 @@
             border-left: 4px solid #4CAF50;
             position: relative;
         }
-        
+
         .history-header {
             display: flex;
             justify-content: space-between;
@@ -263,41 +446,46 @@
             font-weight: bold;
             color: #ffd700;
         }
-        
+
         .history-details {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 10px;
             font-size: 14px;
         }
-        
+
         .history-profit {
             color: #4CAF50;
             font-weight: bold;
         }
-        
+
+        /* BOTÃO DELETAR MENOR E MAIS DISCRETO */
         .delete-btn {
             position: absolute;
-            top: 11px;
-            right: 85px;
-            background: rgba(54, 244, 76, 0.2);
+            top: 158px;
+            right: 70px;
+            background: rgba(244, 67, 54, 0.7);
             border: none;
-            border: 12%;
-            width: 10px;
-            height: 30px;
-            color: #f44336;
+            border-radius: 4px;
+            padding: 4px 8px;
+            color: white;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
+            gap: 4px;
             transition: all 0.3s ease;
+            font-size: 12px;
+            font-weight: 500;
+            width: auto;
+            height: 26px;
         }
-        
+
         .delete-btn:hover {
-            background: rgba(225, 16, 16, 0.4);
-            transform: scale(1.1);
+            background: rgba(244, 54, 54, 0.9);
+            transform: scale(1.05);
         }
-        
+
         .field-design {
             position: absolute;
             top: 0;
@@ -308,13 +496,13 @@
             z-index: -1;
             opacity: 0.3;
         }
-        
+
         .field-line {
             position: absolute;
             background: rgba(255, 255, 255, 0.5);
             border: 2px solid white;
         }
-        
+
         .center-circle {
             position: absolute;
             top: 50%;
@@ -325,7 +513,7 @@
             border-radius: 50%;
             transform: translate(-50%, -50%);
         }
-        
+
         .center-spot {
             position: absolute;
             top: 50%;
@@ -336,7 +524,7 @@
             border-radius: 50%;
             transform: translate(-50%, -50%);
         }
-        
+
         .penalty-area {
             position: absolute;
             width: 250px;
@@ -345,21 +533,21 @@
             top: 50%;
             transform: translateY(-50%);
         }
-        
+
         .penalty-area.left {
             left: 0;
             border-right: none;
             border-top-right-radius: 50px;
             border-bottom-right-radius: 50px;
         }
-        
+
         .penalty-area.right {
             right: 0;
             border-left: none;
             border-top-left-radius: 50px;
             border-bottom-left-radius: 50px;
         }
-        
+
         .explanation {
             background: rgba(0, 60, 0, 0.3);
             border-radius: 10px;
@@ -368,7 +556,7 @@
             border: 1px solid #4CAF50;
             font-size: 14px;
         }
-        
+
         .total-amount-group {
             background: rgba(0, 80, 0, 0.3);
             border-radius: 10px;
@@ -376,13 +564,458 @@
             margin: 15px 0;
             border: 1px solid #4CAF50;
         }
-        
+
+        .game-date-group {
+            display: flex;
+            gap: 15px;
+        }
+
+        .game-date-group .input-group {
+            flex: 1;
+            margin-bottom: 0;
+        }
+
+        /* APOSTA SIMPLES */
+        .simple-bet-result {
+            margin-top: 25px;
+            background: rgba(0, 60, 0, 0.5);
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid #4CAF50;
+            text-align: center;
+        }
+
+        /* APOSTA MÚLTIPLA */
+        .multiple-controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .add-selection-btn {
+            background: linear-gradient(to right, #2196F3, #0D47A1);
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            min-width: auto;
+            flex: 1;
+        }
+
+        .clear-all-btn {
+            background: linear-gradient(to right, #ff9800, #e65100);
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            min-width: auto;
+            flex: 1;
+        }
+
+        .selections-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .selection-item {
+            background: rgba(50, 50, 50, 0.7);
+            border-radius: 8px;
+            padding: 15px;
+            border: 1px solid #555;
+            transition: all 0.3s ease;
+        }
+
+        .selection-item:hover {
+            border-color: #4CAF50;
+            transform: translateY(-2px);
+        }
+
+        .selection-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #ffd700;
+        }
+
+        .remove-selection-btn {
+            background: rgba(244, 67, 54, 0.7);
+            border: none;
+            border-radius: 4px;
+            width: 25px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: auto;
+            padding: 0;
+        }
+
+        .remove-selection-btn:hover {
+            background: rgba(244, 54, 54, 0.925);
+            transform: scale(1.1);
+        }
+
+        .selection-odd {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #444;
+            background: #333;
+            color: white;
+            font-size: 16px;
+        }
+
+        .multiple-bet-result {
+            margin-top: 25px;
+            background: rgba(0, 60, 0, 0.5);
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid #4CAF50;
+            text-align: center;
+        }
+
+        .odd-total {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ffd700;
+            margin: 10px 0;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+        }
+
+        .profit-value {
+            font-size: 1.2rem;
+            margin-top: 10px;
+            font-weight: 600;
+        }
+
+        /* CALCULADORA FLUTUANTE */
+        .floating-calculator-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(to right, #4CAF50, #2E7D32);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .floating-calculator-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+        }
+
+        .calculator-modal {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 300px;
+            background: rgba(30, 30, 30, 0.95);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.7);
+            border: 1px solid #4CAF50;
+            z-index: 1000;
+            display: none;
+        }
+
+        .calculator-modal.active {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .calculator-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #4CAF50;
+        }
+
+        .calculator-title {
+            font-size: 1.2rem;
+            color: #ffd700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .close-calculator {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0;
+            min-width: auto;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .calculator-display {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.5rem;
+            text-align: right;
+            background: #222;
+            border: 1px solid #444;
+            border-radius: 8px;
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .calculator-display:focus {
+            outline: 2px solid #4CAF50;
+            outline-offset: 2px;
+            border-color: #ffd700;
+            box-shadow: 0 0 0 2px rgba(255, 215, 0, 0.3);
+        }
+
+        .calculator-buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .calc-btn {
+            padding: 12px;
+            font-size: 1.2rem;
+            background: #333;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            min-width: auto;
+        }
+
+        .calc-btn:hover {
+            background: #444;
+        }
+
+        .calc-btn:active {
+            transform: scale(0.95);
+        }
+
+        .calc-btn.operator {
+            background: #4CAF50;
+        }
+
+        .calc-btn.operator:hover {
+            background: #3e8e41;
+        }
+
+        .calc-btn.equals {
+            background: #2E7D32;
+        }
+
+        .calc-btn.equals:hover {
+            background: #1b5e20;
+        }
+
+        .calc-btn.clear {
+            background: #f44336;
+        }
+
+        .calc-btn.clear:hover {
+            background: #d32f2f;
+        }
+
+        /* TOAST NOTIFICATION */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toast.show {
+            opacity: 1;
+        }
+
+        .toast.error {
+            background-color: #f44336;
+        }
+
+        /* LIXEIRA */
+        .trash-section {
+            margin-top: 25px;
+            background: rgba(30, 30, 30, 0.92);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.7);
+            border: 1px solid #444;
+        }
+
+        .trash-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .trash-title {
+            font-size: 1.5rem;
+            color: #ffd700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .trash-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .trash-btn {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            min-width: auto;
+        }
+
+        .restore-btn {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .empty-trash-btn {
+            background: #f44336;
+            color: white;
+        }
+
+        .trash-list {
+            max-height: 300px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .trash-item {
+            background: rgba(50, 50, 50, 0.7);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #888;
+            position: relative;
+        }
+
+        .trash-item-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #ffd700;
+        }
+
+        .trash-item-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            font-size: 14px;
+        }
+
+        .trash-item-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+            justify-content: flex-end;
+        }
+
+        .action-btn {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            min-width: auto;
+        }
+
+        .restore-item-btn {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .delete-permanently-btn {
+            background: #f44336;
+            color: white;
+        }
+
         @media (max-width: 768px) {
             .content {
                 flex-direction: column;
             }
             
-            .odds-container, .stakes-container {
+            .stakes-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .return-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .odds-container {
                 grid-template-columns: 1fr;
             }
             
@@ -398,14 +1031,91 @@
                 width: 100%;
             }
             
-            .history-details {
+            .history-details, .trash-item-details {
                 grid-template-columns: 1fr;
+            }
+            
+            .time-display {
+                font-size: 2rem;
+            }
+            
+            .date-display {
+                font-size: 1.1rem;
+            }
+            
+            .game-date-group {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .bookmaker-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .bookmaker-link {
+                align-self: flex-end;
+            }
+            
+            .delete-btn {
+                padding: 3px 6px;
+                font-size: 11px;
+                height: 24px;
+            }
+            
+            .calculator-modal {
+                width: 90%;
+                left: 5%;
+                right: 5%;
+                bottom: 80px;
+            }
+            
+            .floating-calculator-btn {
+                bottom: 20px;
+                right: 20px;
+            }
+            
+            .trash-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .trash-buttons {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .trash-btn {
+                flex: 1;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab-btn {
+                padding: 15px;
+                font-size: 1rem;
+            }
+            
+            .selections-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .multiple-controls {
+                flex-direction: column;
+            }
+            
+            .add-selection-btn, .clear-all-btn {
+                width: 100%;
+                justify-content: center;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Campo de futebol decorativo -->
     <div class="field-design">
         <div class="field-line" style="top: 50%; left: 0; width: 100%; height: 0;"></div>
         <div class="field-line" style="top: 0; left: 50%; width: 0; height: 100%;"></div>
@@ -415,324 +1125,414 @@
         <div class="penalty-area right"></div>
     </div>
     
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toast-message">Operação realizada com sucesso!</span>
+    </div>
+    
+    <div class="clock-container">
+        <div class="clock-card">
+            <div class="time-display" id="currentTime">00:00:00</div>
+            <div class="date-display" id="currentDate">Sábado, 1 de Janeiro de 2023</div>
+        </div>
+    </div>
+    
     <div class="container">
         <header>
-            <h1><i class="fas fa-calculator"></i> Calculadora de Surebet</h1>
-            <p class="subtitle">Calcule oportunidades de apostas seguras com valores a aplicar e gerencie seu histórico</p>
+            <h1><i class="fas fa-calculator"></i> Calculadora de Apostas</h1>
+            <p class="subtitle">Calcule surebets, apostas simples e múltiplas - Gerencie seu histórico</p>
         </header>
         
+        <div class="tabs-container">
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="surebet"><i class="fas fa-shield-alt"></i> Surebet</button>
+                <button class="tab-btn" data-tab="simple"><i class="fas fa-chart-line"></i> Aposta Simples</button>
+                <button class="tab-btn" data-tab="multiple"><i class="fas fa-layer-group"></i> Aposta Múltipla</button>
+            </div>
+        </div>
+        
         <div class="content">
-            <div class="calculator-section">
-                <h2 class="section-title"><i class="fas fa-futbol"></i> Dados da Aposta</h2>
-                
-                <div class="input-group">
-                    <label for="team1">Time da Casa</label>
-                    <input type="text" id="team1" placeholder="Ex: Flamengo" value="">
-                </div>
-                
-                <div class="input-group">
-                    <label for="team2">Time Visitante</label>
-                    <input type="text" id="team2" placeholder="Ex: Palmeiras" value="">
-                </div>
-                
-                <div class="total-amount-group">
-                    <label for="totalAmount">Valor Total a Apostar (R$)</label>
-                    <input type="number" id="totalAmount" min="1" step="1" placeholder="Ex: 100" value="100">
-                </div>
-                
-                <div class="input-group">
-                    <label for="bookmaker1">Casa de Apostas 1</label>
-                    <input type="text" id="bookmaker1" placeholder="Ex: SuperBet" value="SuperBet">
-                </div>
-                
-                <div class="odds-container">
-                    <div class="odds-box">
-                        <div class="odds-label">Vitória do Time 1</div>
-                        <input type="number" id="odds1_1" min="1" step="0.01" placeholder="Ex: Odd 1,50" value="1.50">
-                    </div>
-                    <div class="odds-box">
-                        <div class="odds-label">Vitória do Time 2</div>
-                        <input type="number" id="odds1_2" min="1" step="0.01" placeholder="Ex: Odd 5,50" value="">
-                    </div>
-                </div>
-                
-                <div class="input-group">
-                    <label for="bookmaker2">Casa de Apostas 2</label>
-                    <input type="text" id="bookmaker2" placeholder="Ex: SportingBet" value="SportingBet">
-                </div>
-                
-                <div class="odds-container">
-                    <div class="odds-box">
-                        <div class="odds-label">Vitória do Time 1</div>
-                        <input type="number" id="odds2_1" min="1" step="0.01" placeholder="Ex: Odd 1,50" value="">
-                    </div>
-                    <div class="odds-box">
-                        <div class="odds-label">Vitória do Time 2</div>
-                        <input type="number" id="odds2_2" min="1" step="0.01" placeholder="Ex: Odd 5,50" value="5.50">
-                    </div>
-                </div>
-                
-                <div class="button-group">
-                    <button class="calculate-btn" onclick="calculateSurebet()">
-                        <i class="fas fa-calculator"></i> Calcular Surebet
-                    </button>
-                    <button class="export-btn" onclick="exportToExcel()">
-                        <i class="fas fa-file-excel"></i> Exportar Histórico
-                    </button>
-                    <button class="clear-btn" onclick="clearHistory()">
-                        <i class="fas fa-trash"></i> Limpar Histórico
-                    </button>
-                </div>
-                
-                <div class="result-container">
-                    <div class="result-label">Lucro Garantido</div>
-                    <div class="profit-percentage" id="profitPercentage">0.00%</div>
-                    <div class="surebet-label" id="surebetResult">Insira as odds e clique em Calcular</div>
+            <!-- Aba Surebet -->
+            <div class="tab-content active" id="surebet-tab">
+                <div class="calculator-section">
+                    <h2 class="section-title"><i class="fas fa-futbol"></i> Dados da Aposta</h2>
                     
-                    <div class="stakes-container" id="stakesContainer">
-                        <div class="stake-box">
-                            <div class="stake-header">
-                                <span id="stakeTeam1">Time 1</span>
-                                <span id="stakeBookmaker1">Casa</span>
-                            </div>
-                            <div class="stake-value" id="stake1">R$ 0,00</div>
+                    <div class="input-group">
+                        <label for="team1">Time da Casa</label>
+                        <input type="text" id="team1" placeholder="Ex: Flamengo" value="Flamengo">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="team2">Time Visitante</label>
+                        <input type="text" id="team2" placeholder="Ex: Palmeiras" value="Palmeiras">
+                    </div>
+                    
+                    <div class="game-date-group">
+                        <div class="input-group">
+                            <label for="gameDate">Data do Jogo</label>
+                            <input type="date" id="gameDate">
                         </div>
-                        <div class="stake-box">
-                            <div class="stake-header">
-                                <span id="stakeTeam2">Time 2</span>
-                                <span id="stakeBookmaker2">Casa</span>
-                            </div>
-                            <div class="stake-value" id="stake2">R$ 0,00</div>
+                        <div class="input-group">
+                            <label for="gameTime">Horário do Jogo</label>
+                            <input type="time" id="gameTime" value="20:00">
                         </div>
                     </div>
+                    
+                    <div class="total-amount-group">
+                        <label for="totalAmount">Valor Total a Apostar (R$)</label>
+                        <input type="number" id="totalAmount" min="1" step="1" placeholder="Ex: R$ 100,00" value="100">
+                    </div>
+                    
+                    <div class="bookmaker-section">
+                        <div class="bookmaker-header">
+                            <div class="bookmaker-title">
+                                <div class="bookmaker-logo superbet-logo">S</div>
+                                <h3>SuperBet</h3>
+                            </div>
+                            <a href="https://superbet.bet.br/" target="_blank" class="bookmaker-link"><i class="fas fa-external-link-alt"></i> Acessar Site</a>
+                        </div>
+                        <div class="odds-container">
+                            <div class="odds-box">
+                                <div class="odds-label">Vitória do Time da Casa</div>
+                                <input type="number" id="superbet-odd1" min="1" step="0.01" placeholder="Odd para vitória da casa" value="1.85">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bookmaker-section">
+                        <div class="bookmaker-header">
+                            <div class="bookmaker-title">
+                                <div class="bookmaker-logo sportingbet-logo">S</div>
+                                <h3>SportingBet</h3>
+                            </div>
+                            <a href="https://www.sportingbet.bet.br/" target="_blank" class="bookmaker-link"><i class="fas fa-external-link-alt"></i> Acessar Site</a>
+                        </div>
+                        <div class="odds-container">
+                            <div class="odds-box">
+                                <div class="odds-label">Vitória do Time Visitante</div>
+                                <input type="number" id="sportingbet-odd2" min="1" step="0.01" placeholder="Odd para vitória do visitante" value="3.20">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="button-group">
+                        <button class="calculate-btn" onclick="calculateSurebet()"><i class="fas fa-calculator"></i> Calcular Surebet</button>
+                        <button class="export-btn" onclick="exportToExcel()"><i class="fas fa-file-excel"></i> Exportar Histórico</button>
+                        <button class="clear-btn" onclick="clearHistory()"><i class="fas fa-trash"></i> Limpar Histórico</button>
+                    </div>
+                    
+                    <div class="result-container">
+                        <div class="result-label">Lucro Garantido</div>
+                        <div class="profit-percentage" id="profitPercentage">0.00%</div>
+                        <div class="surebet-label" id="surebetResult">Insira as odds e clique em Calcular</div>
+                        
+                        <div class="stakes-container" id="stakesContainer">
+                            <div class="stake-box"><div class="stake-header"><span id="stakeTeam1">Time 1</span><span id="stakeBookmaker1">Casa</span></div><div class="stake-value" id="stake1">R$ 0,00</div></div>
+                            <div class="stake-box"><div class="stake-header"><span id="stakeTeam2">Time 2</span><span id="stakeBookmaker2">Casa</span></div><div class="stake-value" id="stake2">R$ 0,00</div></div>
+                        </div>
+                        
+                        <div class="return-container">
+                            <div class="return-box"><div class="return-header"><i class="fas fa-home"></i> Retorno se <span id="returnTeam1">Time 1</span> ganhar</div><div class="return-value" id="returnIfWin1">R$ 0,00</div></div>
+                            <div class="return-box"><div class="return-header"><i class="fas fa-plane"></i> Retorno se <span id="returnTeam2">Time 2</span> ganhar</div><div class="return-value" id="returnIfWin2">R$ 0,00</div></div>
+                        </div>
+                    </div>
+                    
+                    <div class="explanation">
+                        <p><strong>Como funciona:</strong> Esta calculadora verifica oportunidades de surebet entre duas casas de apostas. Insira as odds de cada casa para os dois resultados possíveis (apenas vitórias).</p>
+                        <p><strong>Surebet:</strong> Ocorre quando a soma das probabilidades implícitas (1/odd) é menor que 1, garantindo lucro independente do resultado.</p>
+                        <p><strong>Links úteis:</strong> <a href="https://superbet.bet.br/" target="_blank" style="color: #ffd700; text-decoration: none;">SuperBet</a> | <a href="https://www.sportingbet.bet.br/" target="_blank" style="color: #ffd700; text-decoration: none;">SportingBet</a></p>
+                    </div>
                 </div>
-                
-                <div class="explanation">
-                    <p><strong>Como funciona:</strong> Esta calculadora verifica oportunidades de surebet entre duas casas de apostas. Insira o valor total que deseja apostar e o sistema calculará quanto apostar em cada resultado para garantir lucro.</p>
-                    <p><strong>Surebet:</strong> Ocorre quando a soma das probabilidades implícitas (1/odd) é menor que 1, garantindo lucro independente do resultado.</p>
+            </div>
+            
+            <!-- Aba Aposta Simples -->
+            <div class="tab-content" id="simple-tab">
+                <div class="calculator-section">
+                    <h2 class="section-title"><i class="fas fa-chart-line"></i> Calculadora de Aposta Simples</h2>
+                    <div class="input-group"><label for="simpleBetAmount">Valor da Aposta (R$)</label><input type="number" id="simpleBetAmount" min="1" step="1" placeholder="Ex: R$ 100,00" value="100"></div>
+                    <div class="input-group"><label for="simpleBetOdd">Odd</label><input type="number" id="simpleBetOdd" min="1" step="0.01" placeholder="Ex: 2.50" value="2.00"></div>
+                    <button class="calculate-btn" onclick="calculateSimpleBet()"><i class="fas fa-calculator"></i> Calcular Retorno</button>
+                    <div class="result-container"><div class="result-label">Retorno Potencial</div><div class="return-value" id="simpleBetReturn">R$ 0,00</div><div class="profit-value" id="simpleBetProfit">Lucro: R$ 0,00</div></div>
+                    <div class="explanation"><p><strong>Aposta Simples:</strong> Calcule o retorno potencial de uma aposta única baseada no valor apostado e na odd oferecida.</p><p><strong>Fórmula:</strong> Retorno = Valor Apostado × Odd</p><p><strong>Lucro:</strong> Retorno - Valor Apostado</p></div>
+                </div>
+            </div>
+            
+            <!-- Aba Aposta Múltipla -->
+            <div class="tab-content" id="multiple-tab">
+                <div class="calculator-section">
+                    <h2 class="section-title"><i class="fas fa-layer-group"></i> Calculadora de Aposta Múltipla</h2>
+                    <div class="multiple-controls"><button class="add-selection-btn" onclick="addMultipleSelection()"><i class="fas fa-plus"></i> Adicionar Seleção</button><button class="clear-all-btn" onclick="clearAllSelections()"><i class="fas fa-trash"></i> Limpar Tudo</button></div>
+                    <div class="selections-container" id="selectionsContainer"></div>
+                    <div class="input-group"><label for="multipleBetAmount">Valor da Aposta (R$)</label><input type="number" id="multipleBetAmount" min="1" step="1" placeholder="Ex: R$ 50,00" value="50"></div>
+                    <button class="calculate-btn" onclick="calculateMultipleBet()"><i class="fas fa-calculator"></i> Calcular Retorno Múltiplo</button>
+                    <div class="result-container"><div class="result-label">Odd Total</div><div class="odd-total" id="multipleBetOddTotal">1.00</div><div class="result-label">Retorno Potencial</div><div class="return-value" id="multipleBetReturn">R$ 0,00</div><div class="profit-value" id="multipleBetProfit">Lucro: R$ 0,00</div></div>
+                    <div class="explanation"><p><strong>Aposta Múltipla:</strong> Combine várias seleções em uma única aposta. Todas as seleções devem vencer para a aposta ser bem-sucedida.</p><p><strong>Fórmula:</strong> Odd Total = Odd1 × Odd2 × ... × OddN</p><p><strong>Retorno:</strong> Valor Apostado × Odd Total</p></div>
                 </div>
             </div>
             
             <div class="history-section">
                 <h2 class="section-title"><i class="fas fa-history"></i> Histórico de Surebets</h2>
-                <div class="history-list" id="historyList">
-                    <!-- Histórico será gerado dinamicamente aqui -->
+                <div class="history-list" id="historyList"></div>
+                <div class="trash-section">
+                    <div class="trash-header"><h3 class="trash-title"><i class="fas fa-trash"></i> Lixeira</h3><div class="trash-buttons"><button class="trash-btn restore-btn" onclick="restoreAllFromTrash()"><i class="fas fa-undo"></i> Restaurar Tudo</button><button class="trash-btn empty-trash-btn" onclick="emptyTrash()"><i class="fas fa-trash"></i> Esvaziar Lixeira</button></div></div>
+                    <div class="trash-list" id="trashList"></div>
                 </div>
             </div>
         </div>
     </div>
 
+    <div class="floating-calculator-btn" onclick="toggleCalculator()"><i class="fas fa-calculator"></i></div>
+    <div class="calculator-modal" id="calculatorModal">
+        <div class="calculator-header"><div class="calculator-title"><i class="fas fa-calculator"></i> Calculadora Rápida</div><button class="close-calculator" onclick="toggleCalculator()">&times;</button></div>
+        <input type="text" class="calculator-display" id="calcDisplay" value="0" readonly tabindex="0">
+        <div class="calculator-buttons">
+            <button class="calc-btn clear" onclick="clearCalculator()">C</button><button class="calc-btn operator" onclick="appendToCalculator('(')">(</button><button class="calc-btn operator" onclick="appendToCalculator(')')">)</button><button class="calc-btn operator" onclick="appendToCalculator('/')">/</button>
+            <button class="calc-btn" onclick="appendToCalculator('7')">7</button><button class="calc-btn" onclick="appendToCalculator('8')">8</button><button class="calc-btn" onclick="appendToCalculator('9')">9</button><button class="calc-btn operator" onclick="appendToCalculator('*')">×</button>
+            <button class="calc-btn" onclick="appendToCalculator('4')">4</button><button class="calc-btn" onclick="appendToCalculator('5')">5</button><button class="calc-btn" onclick="appendToCalculator('6')">6</button><button class="calc-btn operator" onclick="appendToCalculator('-')">-</button>
+            <button class="calc-btn" onclick="appendToCalculator('1')">1</button><button class="calc-btn" onclick="appendToCalculator('2')">2</button><button class="calc-btn" onclick="appendToCalculator('3')">3</button><button class="calc-btn operator" onclick="appendToCalculator('+')">+</button>
+            <button class="calc-btn" onclick="appendToCalculator('0')">0</button><button class="calc-btn" onclick="appendToCalculator('.')">.</button><button class="calc-btn" onclick="backspaceCalculator()">⌫</button><button class="calc-btn equals" onclick="calculateResult()">=</button>
+        </div>
+    </div>
+
     <script>
-        // Array para armazenar o histórico de surebets
+        // Arrays globais e funções completas (extraídas do script original)
         let surebetHistory = [];
-        
-        // Função para calcular a surebet (sem empate)
+        let trashItems = [];
+        let multipleSelections = [];
+
+        // Utilitários
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toast-message');
+            toastMessage.textContent = message;
+            if (isError) toast.classList.add('error');
+            else toast.classList.remove('error');
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        function formatGameDateTime(dateStr, timeStr) {
+            if (!dateStr) return "Não informado";
+            const date = new Date(dateStr);
+            const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+            const formattedDate = date.toLocaleDateString('pt-BR', options);
+            if (timeStr) {
+                const [hours, minutes] = timeStr.split(':');
+                return `${formattedDate} às ${hours}:${minutes}`;
+            }
+            return formattedDate;
+        }
+
+        // Relógio
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('currentTime').textContent = `${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}:${now.getSeconds().toString().padStart(2,'0')}`;
+            const days = ['Domingo','Segunda-feira','Terça-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sábado'];
+            const months = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+            document.getElementById('currentDate').innerHTML = `${days[now.getDay()]}, ${now.getDate()} de ${months[now.getMonth()]} de ${now.getFullYear()}`;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // Abas
+        function initTabs() {
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const tabId = btn.getAttribute('data-tab');
+                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                    btn.classList.add('active');
+                    document.getElementById(`${tabId}-tab`).classList.add('active');
+                });
+            });
+        }
+
+        // Surebet
         function calculateSurebet() {
-            // Obter valores dos inputs
             const team1 = document.getElementById('team1').value || 'Time 1';
             const team2 = document.getElementById('team2').value || 'Time 2';
-            const bookmaker1 = document.getElementById('bookmaker1').value || 'Casa 1';
-            const bookmaker2 = document.getElementById('bookmaker2').value || 'Casa 2';
+            const gameDate = document.getElementById('gameDate').value;
+            const gameTime = document.getElementById('gameTime').value;
             const totalAmount = parseFloat(document.getElementById('totalAmount').value) || 0;
-            
-            // Obter as odds (apenas vitória time1 e time2)
-            const odds1_1 = parseFloat(document.getElementById('odds1_1').value) || 0;
-            const odds1_2 = parseFloat(document.getElementById('odds1_2').value) || 0;
-            const odds2_1 = parseFloat(document.getElementById('odds2_1').value) || 0;
-            const odds2_2 = parseFloat(document.getElementById('odds2_2').value) || 0;
-            
-            // Encontrar as melhores odds para cada resultado
-            const best1 = Math.max(odds1_1, odds2_1);
-            const best2 = Math.max(odds1_2, odds2_2);
-            
-            // Determinar em qual casa está a melhor odd para cada resultado
-            const bookmakerBest1 = odds1_1 >= odds2_1 ? bookmaker1 : bookmaker2;
-            const bookmakerBest2 = odds1_2 >= odds2_2 ? bookmaker1 : bookmaker2;
-            
-            // Calcular o valor total
-            const total = (1 / best1) + (1 / best2);
-            
-            // Calcular o lucro percentual
+            const odd1 = parseFloat(document.getElementById('superbet-odd1').value) || 0;
+            const odd2 = parseFloat(document.getElementById('sportingbet-odd2').value) || 0;
+            if (odd1 < 1 || odd2 < 1) { showToast("Odds inválidas", true); return; }
+            const total = (1/odd1) + (1/odd2);
             const profitPercentage = ((1 - total) * 100).toFixed(2);
-            
-            // Calcular o lucro em valor
-            const profitValue = (totalAmount * (profitPercentage / 100)).toFixed(2);
-            
-            // Calcular os valores a apostar em cada resultado
-            const stake1 = (totalAmount * (1 / best1)) / total;
-            const stake2 = (totalAmount * (1 / best2)) / total;
-            
-            // Determinar se é uma surebet
+            const stake1 = (totalAmount * (1/odd1)) / total;
+            const stake2 = (totalAmount * (1/odd2)) / total;
+            const returnIfWin1 = stake1 * odd1;
+            const returnIfWin2 = stake2 * odd2;
             const isSurebet = total < 1;
+            document.getElementById('profitPercentage').textContent = profitPercentage + '%';
+            document.getElementById('profitPercentage').style.color = isSurebet ? '#4CAF50' : '#f44336';
+            document.getElementById('surebetResult').innerHTML = isSurebet ? 'OPORTUNIDADE DE SUREBET ENCONTRADA!' : 'Não é uma surebet - Prejuízo garantido';
+            document.getElementById('surebetResult').style.color = isSurebet ? '#4CAF50' : '#f44336';
+            document.getElementById('stake1').innerHTML = 'R$ ' + stake1.toFixed(2);
+            document.getElementById('stake2').innerHTML = 'R$ ' + stake2.toFixed(2);
+            document.getElementById('stakeTeam1').innerHTML = team1;
+            document.getElementById('stakeTeam2').innerHTML = team2;
+            document.getElementById('stakeBookmaker1').innerHTML = "SuperBet";
+            document.getElementById('stakeBookmaker2').innerHTML = "SportingBet";
+            document.getElementById('returnIfWin1').innerHTML = 'R$ ' + returnIfWin1.toFixed(2);
+            document.getElementById('returnIfWin2').innerHTML = 'R$ ' + returnIfWin2.toFixed(2);
+            document.getElementById('returnTeam1').innerHTML = team1;
+            document.getElementById('returnTeam2').innerHTML = team2;
             
-            // Exibir resultados
-            const profitElement = document.getElementById('profitPercentage');
-            const resultElement = document.getElementById('surebetResult');
-            
-            if (isSurebet) {
-                profitElement.textContent = profitPercentage + '%';
-                profitElement.style.color = '#4CAF50';
-                resultElement.textContent = 'OPORTUNIDADE DE SUREBET ENCONTRADA!';
-                resultElement.style.color = '#4CAF50';
-            } else {
-                profitElement.textContent = profitPercentage + '%';
-                profitElement.style.color = '#f44336';
-                resultElement.textContent = 'Não é uma surebet - Prejuízo garantido';
-                resultElement.style.color = '#f44336';
-            }
-            
-            // Exibir valores de aposta
-            document.getElementById('stake1').textContent = 'R$ ' + stake1.toFixed(2);
-            document.getElementById('stake2').textContent = 'R$ ' + stake2.toFixed(2);
-            document.getElementById('stakeTeam1').textContent = team1;
-            document.getElementById('stakeTeam2').textContent = team2;
-            document.getElementById('stakeBookmaker1').textContent = bookmakerBest1;
-            document.getElementById('stakeBookmaker2').textContent = bookmakerBest2;
-            
-            // Criar objeto para histórico
             const surebetEntry = {
-                id: Date.now(),
-                date: new Date().toLocaleString(),
-                team1,
-                team2,
-                bookmaker1,
-                bookmaker2,
-                totalAmount,
-                odds: {
-                    bookmaker1: { win1: odds1_1, win2: odds1_2 },
-                    bookmaker2: { win1: odds2_1, win2: odds2_2 }
-                },
-                bestOdds: { win1: best1, win2: best2 },
-                bookmakerBest1,
-                bookmakerBest2,
-                stake1: stake1.toFixed(2),
-                stake2: stake2.toFixed(2),
-                profitPercentage: parseFloat(profitPercentage),
-                profitValue: parseFloat(profitValue),
-                isSurebet
+                id: Date.now(), date: new Date().toLocaleString(), gameDate: formatGameDateTime(gameDate, gameTime),
+                team1, team2, totalAmount, odds: { superbet: { odd1 }, sportingbet: { odd2 } },
+                bestOdds: { win1: odd1, win2: odd2 }, bookmakerBest1: "SuperBet", bookmakerBest2: "SportingBet",
+                stake1: stake1.toFixed(2), stake2: stake2.toFixed(2), returnIfWin1: returnIfWin1.toFixed(2), returnIfWin2: returnIfWin2.toFixed(2),
+                profitPercentage: parseFloat(profitPercentage), profitValue: ((totalAmount * (profitPercentage/100))).toFixed(2),
+                totalStaked: (stake1+stake2).toFixed(2), isSurebet
             };
-            
-            // Adicionar ao histórico
             surebetHistory.unshift(surebetEntry);
-            
-            // Salvar no localStorage
             localStorage.setItem('surebetHistory', JSON.stringify(surebetHistory));
-            
-            // Atualizar a exibição do histórico
             updateHistoryDisplay();
+            showToast(isSurebet ? "Surebet encontrada!" : "Não é surebet", !isSurebet);
         }
-        
-        // Função para atualizar a exibição do histórico
+
+        // Simples
+        function calculateSimpleBet() {
+            const amount = parseFloat(document.getElementById('simpleBetAmount').value) || 0;
+            const odd = parseFloat(document.getElementById('simpleBetOdd').value) || 0;
+            if (amount <= 0 || odd < 1) { showToast("Valores inválidos", true); return; }
+            const ret = amount * odd;
+            const profit = ret - amount;
+            document.getElementById('simpleBetReturn').innerHTML = `R$ ${ret.toFixed(2)}`;
+            document.getElementById('simpleBetProfit').innerHTML = `Lucro: R$ ${profit.toFixed(2)}`;
+            document.getElementById('simpleBetProfit').style.color = profit >=0 ? '#4CAF50' : '#f44336';
+            showToast(`Retorno: R$ ${ret.toFixed(2)}`);
+        }
+
+        // Múltipla
+        function addMultipleSelection(odd=2.00) { multipleSelections.push({ id: Date.now(), odd }); updateSelectionsDisplay(); calculateMultipleBet(); }
+        function removeMultipleSelection(id) { multipleSelections = multipleSelections.filter(s => s.id !== id); updateSelectionsDisplay(); calculateMultipleBet(); }
+        function updateSelectionOdd(id, newOdd) { let sel = multipleSelections.find(s => s.id === id); if(sel) { sel.odd = parseFloat(newOdd) || 1; calculateMultipleBet(); } }
+        function updateSelectionsDisplay() {
+            const container = document.getElementById('selectionsContainer');
+            container.innerHTML = '';
+            multipleSelections.forEach((sel, idx) => {
+                const div = document.createElement('div'); div.className = 'selection-item';
+                div.innerHTML = `<div class="selection-header"><span>Seleção ${idx+1}</span><button class="remove-selection-btn" onclick="removeMultipleSelection(${sel.id})"><i class="fas fa-times"></i></button></div><input type="number" class="selection-odd" value="${sel.odd}" min="1" step="0.01" onchange="updateSelectionOdd(${sel.id}, this.value)">`;
+                container.appendChild(div);
+            });
+        }
+        function clearAllSelections() { if(multipleSelections.length && confirm('Limpar todas as seleções?')) { multipleSelections = []; updateSelectionsDisplay(); calculateMultipleBet(); showToast("Seleções removidas"); } }
+        function calculateMultipleBet() {
+            const amount = parseFloat(document.getElementById('multipleBetAmount').value) || 0;
+            if (multipleSelections.length === 0) { document.getElementById('multipleBetOddTotal').innerText = '1.00'; document.getElementById('multipleBetReturn').innerText = 'R$ 0,00'; document.getElementById('multipleBetProfit').innerHTML = 'Lucro: R$ 0,00'; return; }
+            let totalOdd = multipleSelections.reduce((acc, s) => acc * (s.odd || 1), 1);
+            const ret = amount * totalOdd;
+            const profit = ret - amount;
+            document.getElementById('multipleBetOddTotal').innerText = totalOdd.toFixed(2);
+            document.getElementById('multipleBetReturn').innerHTML = `R$ ${ret.toFixed(2)}`;
+            document.getElementById('multipleBetProfit').innerHTML = `Lucro: R$ ${profit.toFixed(2)}`;
+            document.getElementById('multipleBetProfit').style.color = profit >=0 ? '#4CAF50' : '#f44336';
+        }
+
+        // Histórico e lixeira
         function updateHistoryDisplay() {
-            const historyList = document.getElementById('historyList');
-            historyList.innerHTML = '';
-            
-            if (surebetHistory.length === 0) {
-                historyList.innerHTML = '<div class="history-item">Nenhuma surebet calculada ainda</div>';
-                return;
-            }
-            
+            const container = document.getElementById('historyList');
+            container.innerHTML = '';
+            if (!surebetHistory.length) { container.innerHTML = '<div class="history-item">Nenhuma surebet calculada ainda</div>'; return; }
             surebetHistory.forEach(entry => {
-                const historyItem = document.createElement('div');
-                historyItem.className = 'history-item';
-                
-                historyItem.innerHTML = `
-                    <button class="delete-btn" onclick="deleteHistoryItem(${entry.id})">
-                        <i class="fas fa-times"></i>
-                    </button>
-                    <div class="history-header">
-                        <div>${entry.team1} vs ${entry.team2}</div>
-                        <div class="history-profit">${entry.profitPercentage}%</div>
-                    </div>
+                const profitIfWin1 = (entry.returnIfWin1 - entry.totalStaked).toFixed(2);
+                const profitIfWin2 = (entry.returnIfWin2 - entry.totalStaked).toFixed(2);
+                const div = document.createElement('div'); div.className = 'history-item';
+                div.innerHTML = `<button class="delete-btn" onclick="moveToTrash(${entry.id})"><i class="fas fa-trash"></i> Deletar</button>
+                    <div class="history-header"><div>${entry.team1} vs ${entry.team2}</div><div class="history-profit">${entry.profitPercentage}%</div></div>
                     <div class="history-details">
-                        <div><strong>Valor Total:</strong> R$ ${entry.totalAmount}</div>
-                        <div><strong>Data:</strong> ${entry.date}</div>
-                        <div><strong>${entry.team1}:</strong> ${entry.stake1} (${entry.bookmakerBest1})</div>
-                        <div><strong>${entry.team2}:</strong> ${entry.stake2} (${entry.bookmakerBest2})</div>
-                        <div><strong>Lucro:</strong> R$ ${entry.profitValue.toFixed(2)}</div>
-                        <div><strong>Resultado:</strong> <span style="color:${entry.isSurebet ? '#4CAF50' : '#f44336'}">${entry.isSurebet ? 'Surebet' : 'Não é surebet'}</span></div>
+                        <div><strong><i class="far fa-calendar-alt"></i> Data do Jogo:</strong> ${entry.gameDate}</div>
+                        <div><strong><i class="fas fa-money-bill-wave"></i> Valor Apostado:</strong> R$ ${entry.totalStaked}</div>
+                        <div><strong><i class="fas fa-calculator"></i> Data do Cálculo:</strong> ${entry.date}</div>
+                        <div><strong><i class="fas fa-home"></i> ${entry.team1}:</strong> ${entry.stake1} (${entry.bookmakerBest1})</div>
+                        <div><strong><i class="fas fa-plane"></i> ${entry.team2}:</strong> ${entry.stake2} (${entry.bookmakerBest2})</div>
+                        <div><strong><i class="fas fa-arrow-up"></i> Retorno se ${entry.team1} vencer:</strong> R$ ${entry.returnIfWin1}</div>
+                        <div><strong><i class="fas fa-arrow-up"></i> Retorno se ${entry.team2} vencer:</strong> R$ ${entry.returnIfWin2}</div>
+                        <div><strong><i class="fas fa-coins" style="color:#4CAF50"></i> Lucro se ${entry.team1} vencer:</strong> <span style="color:#4CAF50">R$ ${profitIfWin1}</span></div>
+                        <div><strong><i class="fas fa-coins" style="color:#4CAF50"></i> Lucro se ${entry.team2} vencer:</strong> <span style="color:#4CAF50">R$ ${profitIfWin2}</span></div>
+                        <div><strong><i class="fas fa-check-circle"></i> Resultado:</strong> <span style="color:${entry.isSurebet ? '#4CAF50' : '#f44336'}">${entry.isSurebet ? 'Surebet' : 'Não é surebet'}</span></div>
+                    </div>`;
+                container.appendChild(div);
+            });
+        }
+        function moveToTrash(id) {
+            const index = surebetHistory.findIndex(e => e.id === id);
+            if(index !== -1) { trashItems.push(surebetHistory[index]); surebetHistory.splice(index,1); localStorage.setItem('surebetHistory',JSON.stringify(surebetHistory)); localStorage.setItem('surebetTrash',JSON.stringify(trashItems)); updateHistoryDisplay(); updateTrashDisplay(); showToast("Item movido para a lixeira"); }
+        }
+        function updateTrashDisplay() {
+            const container = document.getElementById('trashList');
+            container.innerHTML = '';
+            if (!trashItems.length) { container.innerHTML = '<div class="trash-item">Lixeira vazia</div>'; return; }
+            trashItems.forEach(entry => {
+                const profitIfWin1 = (entry.returnIfWin1 - entry.totalStaked).toFixed(2);
+                const profitIfWin2 = (entry.returnIfWin2 - entry.totalStaked).toFixed(2);
+                const div = document.createElement('div'); div.className = 'trash-item';
+                div.innerHTML = `<div class="trash-item-header"><div>${entry.team1} vs ${entry.team2}</div><div class="history-profit">${entry.profitPercentage}%</div></div>
+                    <div class="trash-item-details">
+                        <div><strong><i class="far fa-calendar-alt"></i> Data do Jogo:</strong> ${entry.gameDate}</div>
+                        <div><strong><i class="fas fa-money-bill-wave"></i> Valor Apostado:</strong> R$ ${entry.totalStaked}</div>
+                        <div><strong><i class="fas fa-calculator"></i> Data do Cálculo:</strong> ${entry.date}</div>
+                        <div><strong><i class="fas fa-home"></i> ${entry.team1}:</strong> ${entry.stake1} (${entry.bookmakerBest1})</div>
+                        <div><strong><i class="fas fa-plane"></i> ${entry.team2}:</strong> ${entry.stake2} (${entry.bookmakerBest2})</div>
+                        <div><strong><i class="fas fa-arrow-up"></i> Retorno se ${entry.team1} vencer:</strong> R$ ${entry.returnIfWin1}</div>
+                        <div><strong><i class="fas fa-arrow-up"></i> Retorno se ${entry.team2} vencer:</strong> R$ ${entry.returnIfWin2}</div>
+                        <div><strong><i class="fas fa-coins" style="color:#4CAF50"></i> Lucro se ${entry.team1} vencer:</strong> <span style="color:#4CAF50">R$ ${profitIfWin1}</span></div>
+                        <div><strong><i class="fas fa-coins" style="color:#4CAF50"></i> Lucro se ${entry.team2} vencer:</strong> <span style="color:#4CAF50">R$ ${profitIfWin2}</span></div>
+                        <div><strong><i class="fas fa-check-circle"></i> Resultado:</strong> <span style="color:${entry.isSurebet ? '#4CAF50' : '#f44336'}">${entry.isSurebet ? 'Surebet' : 'Não é surebet'}</span></div>
                     </div>
-                `;
-                
-                historyList.appendChild(historyItem);
+                    <div class="trash-item-actions"><button class="action-btn restore-item-btn" onclick="restoreFromTrash(${entry.id})"><i class="fas fa-undo"></i> Restaurar</button><button class="action-btn delete-permanently-btn" onclick="deletePermanently(${entry.id})"><i class="fas fa-trash"></i> Excluir Permanentemente</button></div>`;
+                container.appendChild(div);
             });
         }
-        
-        // Função para excluir um item do histórico
-        function deleteHistoryItem(id) {
-            if (confirm('Tem certeza que deseja excluir este registro do histórico?')) {
-                surebetHistory = surebetHistory.filter(entry => entry.id !== id);
-                localStorage.setItem('surebetHistory', JSON.stringify(surebetHistory));
-                updateHistoryDisplay();
-            }
+        function restoreFromTrash(id) {
+            const index = trashItems.findIndex(e => e.id === id);
+            if(index !== -1) { surebetHistory.unshift(trashItems[index]); trashItems.splice(index,1); localStorage.setItem('surebetHistory',JSON.stringify(surebetHistory)); localStorage.setItem('surebetTrash',JSON.stringify(trashItems)); updateHistoryDisplay(); updateTrashDisplay(); showToast("Item restaurado"); }
         }
-        
-        // Função para exportar o histórico para Excel
+        function restoreAllFromTrash() { if(trashItems.length) { surebetHistory = [...trashItems, ...surebetHistory]; trashItems = []; localStorage.setItem('surebetHistory',JSON.stringify(surebetHistory)); localStorage.setItem('surebetTrash',JSON.stringify(trashItems)); updateHistoryDisplay(); updateTrashDisplay(); showToast("Todos os itens restaurados"); } else showToast("Lixeira vazia", true); }
+        function deletePermanently(id) { const index = trashItems.findIndex(e => e.id === id); if(index !== -1) { trashItems.splice(index,1); localStorage.setItem('surebetTrash',JSON.stringify(trashItems)); updateTrashDisplay(); showToast("Item excluído permanentemente"); } }
+        function emptyTrash() { if(trashItems.length && confirm('Esvaziar lixeira permanentemente?')) { trashItems = []; localStorage.setItem('surebetTrash',JSON.stringify(trashItems)); updateTrashDisplay(); showToast("Lixeira esvaziada"); } else showToast("Lixeira já vazia", true); }
+        function clearHistory() { if(surebetHistory.length && confirm('Limpar histórico? Itens vão para lixeira.')) { trashItems = [...surebetHistory, ...trashItems]; surebetHistory = []; localStorage.setItem('surebetHistory',JSON.stringify(surebetHistory)); localStorage.setItem('surebetTrash',JSON.stringify(trashItems)); updateHistoryDisplay(); updateTrashDisplay(); showToast("Histórico limpo"); } else showToast("Histórico vazio", true); }
+
+        // Exportar Excel (com formatação básica)
         function exportToExcel() {
-            if (surebetHistory.length === 0) {
-                alert('Nenhum dado no histórico para exportar!');
-                return;
-            }
-            
-            // Preparar os dados para a planilha
-            const wsData = [
-                ['Data', 'Time Casa', 'Time Visitante', 'Valor Total', 'Casa Aposta 1', 'Casa Aposta 2', 
-                 'Odd1 Vitória Casa', 'Odd1 Vitória Fora',
-                 'Odd2 Vitória Casa', 'Odd2 Vitória Fora',
-                 'Melhor Vitória Casa', 'Melhor Vitória Fora', 
-                 'Casa Melhor Casa', 'Casa Melhor Fora',
-                 'Valor Aposta Casa', 'Valor Aposta Fora', 
-                 'Lucro (%)', 'Lucro (R$)', 'Surebet?']
-            ];
-            
-            surebetHistory.forEach(entry => {
-                wsData.push([
-                    entry.date,
-                    entry.team1,
-                    entry.team2,
-                    entry.totalAmount,
-                    entry.bookmaker1,
-                    entry.bookmaker2,
-                    entry.odds.bookmaker1.win1,
-                    entry.odds.bookmaker1.win2,
-                    entry.odds.bookmaker2.win1,
-                    entry.odds.bookmaker2.win2,
-                    entry.bestOdds.win1,
-                    entry.bestOdds.win2,
-                    entry.bookmakerBest1,
-                    entry.bookmakerBest2,
-                    entry.stake1,
-                    entry.stake2,
-                    entry.profitPercentage,
-                    entry.profitValue,
-                    entry.isSurebet ? 'Sim' : 'Não'
-                ]);
+            if(!surebetHistory.length) { showToast("Nenhum dado para exportar", true); return; }
+            const wsData = [['Data Cálculo','Data Jogo','Time Casa','Time Visitante','Total Apostado','SuperBet Casa','SportingBet Fora','Melhor Odd Casa','Melhor Odd Fora','Casa Odd Casa','Casa Odd Fora','Aposta Casa','Aposta Fora','Retorno Casa','Retorno Fora','Lucro Casa','Lucro Fora','Lucro %','Lucro R$','Surebet?']];
+            surebetHistory.forEach(e => {
+                wsData.push([e.date, e.gameDate, e.team1, e.team2, e.totalStaked, e.odds.superbet.odd1, e.odds.sportingbet.odd2, e.bestOdds.win1, e.bestOdds.win2, e.bookmakerBest1, e.bookmakerBest2, e.stake1, e.stake2, e.returnIfWin1, e.returnIfWin2, (e.returnIfWin1 - e.totalStaked).toFixed(2), (e.returnIfWin2 - e.totalStaked).toFixed(2), e.profitPercentage, e.profitValue, e.isSurebet ? 'SIM' : 'NÃO']);
             });
-            
             const ws = XLSX.utils.aoa_to_sheet(wsData);
             const wb = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(wb, ws, 'Histórico Surebet');
-            
-            // Salvar o arquivo
-            XLSX.writeFile(wb, `historico_surebet_${new Date().toISOString().slice(0, 10)}.xlsx`);
+            XLSX.writeFile(wb, `historico_surebet_${new Date().toISOString().slice(0,10)}.xlsx`);
+            showToast("Exportado com sucesso!");
         }
-        
-        // Função para limpar o histórico
-        function clearHistory() {
-            if (confirm('Tem certeza que deseja limpar todo o histórico?')) {
-                surebetHistory = [];
-                localStorage.removeItem('surebetHistory');
-                updateHistoryDisplay();
-            }
-        }
-        
-        // Carregar histórico ao iniciar
+
+        // Calculadora flutuante e teclado
+        function toggleCalculator() { const modal = document.getElementById('calculatorModal'); modal.classList.toggle('active'); if(modal.classList.contains('active')) { document.addEventListener('keydown', handleCalculatorKeyPress); document.getElementById('calcDisplay').focus(); } else document.removeEventListener('keydown', handleCalculatorKeyPress); }
+        function handleCalculatorKeyPress(e) { if(!document.getElementById('calculatorModal').classList.contains('active')) return; const k = e.key; if('0123456789()+-*/.'.includes(k)) { e.preventDefault(); appendToCalculator(k); } else if(k === 'Enter') { e.preventDefault(); calculateResult(); } else if(k === 'Escape') { e.preventDefault(); clearCalculator(); } else if(k === 'Backspace') { e.preventDefault(); backspaceCalculator(); } }
+        function appendToCalculator(v) { const disp = document.getElementById('calcDisplay'); if(disp.value === '0' && v!=='.' && !'+-*/'.includes(v)) disp.value = v; else if(disp.value === 'Erro') disp.value = v; else { const last = disp.value.slice(-1); if('+-*/'.includes(v) && '+-*/'.includes(last)) disp.value = disp.value.slice(0,-1) + v; else disp.value += v; } disp.focus(); }
+        function clearCalculator() { document.getElementById('calcDisplay').value = '0'; document.getElementById('calcDisplay').focus(); }
+        function backspaceCalculator() { const disp = document.getElementById('calcDisplay'); if(disp.value.length > 1 && disp.value !== 'Erro') disp.value = disp.value.slice(0,-1); else disp.value = '0'; disp.focus(); }
+        function calculateResult() { const disp = document.getElementById('calcDisplay'); try { let res = eval(disp.value.replace(/×/g,'*')); disp.value = res.toString(); } catch(e) { disp.value = 'Erro'; setTimeout(()=> disp.value='0',1000); } disp.focus(); }
+
+        // Inicialização
         document.addEventListener('DOMContentLoaded', () => {
+            const today = new Date();
+            document.getElementById('gameDate').min = today.toISOString().split('T')[0];
+            let defaultDate = new Date(); defaultDate.setDate(today.getDate()+1);
+            document.getElementById('gameDate').value = defaultDate.toISOString().split('T')[0];
             const savedHistory = localStorage.getItem('surebetHistory');
-            if (savedHistory) {
-                surebetHistory = JSON.parse(savedHistory);
-            }
+            if(savedHistory) surebetHistory = JSON.parse(savedHistory);
+            const savedTrash = localStorage.getItem('surebetTrash');
+            if(savedTrash) trashItems = JSON.parse(savedTrash);
+            initTabs();
+            addMultipleSelection(1.50);
+            addMultipleSelection(2.00);
             updateHistoryDisplay();
+            updateTrashDisplay();
         });
     </script>
 </body>
